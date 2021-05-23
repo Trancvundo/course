@@ -13,11 +13,27 @@ echo "<tr>" . "<th>Firstname</th>" . "<th>Score</th>" . "<th>Lastname</th>" . "<
 foreach($students  as $row) {
     echo "<tr>";
     $row[] = $id[$i];
-    $i = $i + 1;
+    $i++;
     foreach ($row as $cell) {
         echo "<td>" . $cell . "</td>";
     }
     echo "</tr>";
 }
 echo "</table>";
+
+// In array zetten
+echo "<br>";
+
+$i = 0;
+$new = array();
+foreach($students as $student) {
+    $i++;
+    $student['id'] = $i;
+    $new[] = $student;
+}
+$students = $new;
+print_r($students);
+
+
+
 ?>

@@ -11,4 +11,16 @@ $ArrayString = explode(" ",$String4);
 echo count($ArrayString);
 echo "<br>";
 echo var_dump($ArrayString);
+
+//function maken met return kan ook met array
+echo "<br>";
+
+function splitIntoArray($text){
+    $text = str_replace(array('.',','),array('',''),strtolower($text));
+    return explode(' ',$text);
+}
+
+print_r(splitIntoArray($String));
+
+
 ?>
