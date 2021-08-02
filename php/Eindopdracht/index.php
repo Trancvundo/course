@@ -1,31 +1,54 @@
 <?php
-define('DB_HOST',"localhost");
-define('DB_PORT', "3307");
-define('DB_USERNAME',"root"); 
-define('DB_PASSWORD',"root");
-define('DB_DATABASE',"Phpcursus"); 
-$connection = mysqli_connect(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_DATABASE, DB_PORT);
-if (!$connection) {
-  die('Verbinding met de database is mislukt.');
-}
-?>
-
-<?php
+include 'template/database.php';
 include 'template/header.php';
 include 'template/menu.php';
 ?>
 
 <?php
-$query = "SELECT * FROM Page";
-$result = mysqli_query($connection, $query);
-echo mysqli_num_rows($result);
-$rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
-foreach($rows as $row){
-  echo $row['id'];
-  echo $row['title'];
-  echo $row['link'];
-}
-?>
+session_start();
+if(isset($_SESSION['status'])): ?>
+  <h1>Welkom terug <?php echo $_SESSION['gebruikersnaam']; ?></h1>
+  <a href="admin.php" title="Admin">Admin</a></li>
+  <a href="logout.php" title="Uitloggen">Uitloggen</a></li>
+<?php else: ?>
+  <h1>Admin Login</h1>
+  <form method="post">
+    <br>
+    <label>Gebruikersnaam:</label>
+    <br>
+    <input type="text" name="gebruikersnaam">
+    <br>
+    <label>Wachtwoord:</label>
+    <br>
+    <input type="text" name="wachtwoord">
+    <br>
+    <br>
+    <input type="submit" value="Verzenden">
+    <br>
+  </form>
+  
+  <?php
+  session_start();
+  $admin = "Jaap";
+  $pass = "Admin123";
+  ini_set('error_reporting', E_ALL); 
+  ini_set('display_errors', 1);
+
+  if(isset($_POST['gebruikersnaam'])){
+    echo "For admin only";
+    if($_POST['gebruikersnaam'] == $admin && $_POST['wachtwoord'] = $pass){
+      $_SESSION['gebruikersnaam'] = $_POST['gebruikersnaam'];
+      $_SESSION['wachtwoord'] = $_POST['wachtwoord'];
+      $_SESSION['status'] = "ingelogd";
+      header('location: index.php');
+      exit;
+    }
+  }
+  
+
+  ?>
+<?php endif; ?>
+
 
 <?php
 include 'template/footer.php';
